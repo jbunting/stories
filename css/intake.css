@@ -1,12 +1,17 @@
 #intake_wrapper {
-    padding: 5px;
     width: 100%;
-    background: #cccccc;
+    background-color: rgba(47, 124, 157, 0.9);
+}
+
+.step_wrapper {
+    border-bottom: 1px dotted white;
+    margin: 0px 0px 5px 0px;;
+    padding: 0px 0px 5px 0px;
 }
 
 .step {
-    background: #999999;
-    padding: 4px 6px;
+    border: 3px solid;
+    padding: 4px 7px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -14,6 +19,18 @@
 }
 
 .step_header {
-    background: #000000;
     color: #ffffff;
+    padding: 5px 4px;
+    margin-bottom: 10px;
+    min-height: 20px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+.intake_map {
+    padding: 5px;
+}
+
+.step_content {
+    padding: 20px;
 }

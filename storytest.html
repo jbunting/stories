@@ -1,0 +1,121 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <form id="story_form">
+            Title: <input type="text" name="title" value="my title"> <br>
+            Coords: <input type="text" name="longitude" value="36.1667">
+            <input type="text" name="latitude" value="-86.7833"> <br>
+            Text: <input type="text" name="text" value="We went to the store. Twice!"> <br>
+            Submitter: <br>
+            &nbsp;&nbsp;Name:<input type="text" name="submitter_name" value="Fred"> <br>
+            &nbsp;&nbsp;Phone:<input type="tel" name="submitter_phone" value="555-1234"> <br>
+            &nbsp;&nbsp;Email:<input type="text" name="submitter_email" value="fred@example.com"> <br>
+            Submit Date:<input type="date" name="submit_date" value="2014-05-31"> <br>
+            Story Date:<input type="date" name="story_date" value="2001-01-01"> <br>
+            <br>
+
+            <button id="submit" value="Create Story">Create Story</button> <br>
+
+        </form>
+
+        <span id="story_span">Stories</span>
+        <ul id="stories"></ul>
+
+        <script src="js/jquery-1.11.1.js"></script>
+        <script src="js/data.js"></script>
+        <script>
+            var ds = new DataSource();
+            $("#story_form").submit(function(event) {
+                event.preventDefault();
+                console.log("hi!", event);
+                var storyObject = $(event.currentTarget).serializeObject();
+                console.log("new story", storyObject);
+                ds.addStory(storyObject);
+            });
+
+            $("#story_span").click(function() {
+                console.log("listing stories...");
+                var stories = ds.listStories();
+                $("#stories").empty();
+                for (var i = 0; i < stories.length; i++) {
+                    var story = stories[i];
+                    console.log("displaying story", story);
+                    $("<li/>").appendTo("#stories").html("[" + story.pk + "] -- " + story.title).click(story, function(event) {
+                        console.log("Here's your story!", ds.getStoryDetails(event.data.pk));
+                    });
+                }
+            });
+            console.log("it's all setup!");
+
+            (function($){
+                $.fn.serializeObject = function(){
+
+                    var self = this,
+                            json = {},
+                            push_counters = {},
+                            patterns = {
+                                "validate": /^[a-zA-Z][a-zA-Z0-9_]*(?:\[(?:\d*|[a-zA-Z0-9_]+)\])*$/,
+                                "key":      /[a-zA-Z0-9_]+|(?=\[\])/g,
+                                "push":     /^$/,
+                                "fixed":    /^\d+$/,
+                                "named":    /^[a-zA-Z0-9_]+$/
+                            };
+
+
+                    this.build = function(base, key, value){
+                        base[key] = value;
+                        return base;
+                    };
+
+                    this.push_counter = function(key){
+                        if(push_counters[key] === undefined){
+                            push_counters[key] = 0;
+                        }
+                        return push_counters[key]++;
+                    };
+
+                    $.each($(this).serializeArray(), function(){
+
+                        // skip invalid keys
+                        if(!patterns.validate.test(this.name)){
+                            return;
+                        }
+
+                        var k,
+                                keys = this.name.match(patterns.key),
+                                merge = this.value,
+                                reverse_key = this.name;
+
+                        while((k = keys.pop()) !== undefined){
+
+                            // adjust reverse_key
+                            reverse_key = reverse_key.replace(new RegExp("\\[" + k + "\\]$"), '');
+
+                            // push
+                            if(k.match(patterns.push)){
+                                merge = self.build([], self.push_counter(reverse_key), merge);
+                            }
+
+                            // fixed
+                            else if(k.match(patterns.fixed)){
+                                merge = self.build([], k, merge);
+                            }
+
+                            // named
+                            else if(k.match(patterns.named)){
+                                merge = self.build({}, k, merge);
+                            }
+                        }
+
+                        json = $.extend(true, json, merge);
+                    });
+
+                    return json;
+                };
+            })(jQuery);
+        </script>
+
+    </body>
+</html>

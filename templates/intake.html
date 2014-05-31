@@ -1,13 +1,7 @@
-<!--- this will be deleted --->
-<html>
-<head>
-    <link rel="stylesheet" href="../css/intake.css" type="text/css" media="all" /> 
-    <link rel="stylesheet" href="../css/app.css" type="text/css" media="all" /> 
-</head>
-<body>
-<!--- this will be deleted --->
-
 <div id="intake_wrapper">
+    <div class="close_button">
+        <img src="images/close.png" border="0" />
+    </div>
     <div class="step_wrapper">
         <div class="step_header">
             <span class="step">1</span> Title your story
@@ -16,9 +10,45 @@
             <input type="text" name="storyTitle" />
         </div>
     </div>
+    <div class="step_wrapper">
+        <div class="step_header">
+            <span class="step">2</span> When did the event happen?
+        </div>
+        <div class="step_cotent">
+            <input type="text" name="storyTitle" />
+        </div>
+    </div>
+    <div class="step_wrapper">
+        <div class="step_header">
+            <span class="step">3</span> Where did this happen?
+        </div>
+        <div class="step_cotent">
+            <input type="text" name="location" />
+            <div class="intake_map">
+                <img src="images/temp_map.gif" border="0">
+            </div>
+        </div>
+    </div>
+    <div class="step_wrapper">
+        <div class="step_header">
+            <span class="step">4</span> Tell us your story or type us a story.
+        </div>
+        <div class="step_cotent">
+            <input type="button" value="Video" name="intake_story_video" />
+            <input type="button" value="Text" name="intake_story_text" />
+        </div>
+    </div>
+    <div class="step_wrapper">
+        <div class="step_header">
+            <span class="step">5</span> Do you have photos or videos to share?
+        </div>
+        <div class="step_cotent">
+            <input type="button" value="Upload Media" name="intake_media" />
+        </div>
+    </div>
+    <div class="step_wrapper">
+        <div class="step_header">
+            <input type="submit" value="Share Your Story" />
+        </div>
+    </div>
 </div>
-
-<!--- this will be deleted --->
-</body>
-</html>
-<!--- this will be deleted --->

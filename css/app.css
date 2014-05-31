@@ -1,0 +1,11 @@
+body {
+    margin: 0px;
+    background: #666666;
+}
+
+input[type=text] {
+    width: 95%;
+    font-size: 20px;
+    padding: 2px;
+    color: #666666;
+}

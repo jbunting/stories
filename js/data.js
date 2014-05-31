@@ -23,27 +23,50 @@
 
 function DataSource() {
 
+	var ObservableArray = function() {
+		this.listeners = [];
+		this.listen = function(listener) {
+			this.listeners.push(listener);
+		};
+	};
+	ObservableArray.prototype = [];
+	ObservableArray.prototype.push = function()
+	{
+		console.log('push now!');
+		var story = arguments[0];
+		for (var i = 0; i < this.listeners.length; i++) {
+			this.listeners[i](story)
+		}
+		Array.prototype.push.call(this, story);
+	};
+
 	var pk_seq = 0;
-	var stories = [];
+	var stories = new ObservableArray();
 
 	// An object containing all of the fields required for a story.
-	this.addStory = function(story) {
+	//  -- the callback will be called with the PK of the new story once it is added
+	this.addStory = function(story, callback) {
 		story.pk = pk_seq++;
 		stories.push(story);
-		console.log("Added a story.", story);
+		console.log("Added a story.", story.pk, story);
+		if (callback) {
+			callback(story.pk);
+		}
 	};
 
 	// Get a list of all stories. This returns an array of objects, where each object contains "title" and "pk" of the story.
-	this.listStories = function() {
-		var storiesMeta = [];
-		for (var i = 0; i < stories.length; i++) {
-			storiesMeta.push({ pk: i, title: stories[i].title });
+	// -- the callback will be called once for each story -- even if they are added later - passing the story as a single param.
+	this.listenForStories = function(callback) {
+		var length = stories.length;
+		stories.listen(callback);
+		for (var i = 0; i < length; i++) {
+			callback(stories[i]);
 		}
-		return storiesMeta;
 	};
 
-	this.getStoryDetails = function(key) {
-		return stories[key];
+	// Gets a specific story's detail and invokes the callback with the story as the parameter
+	this.getStoryDetails = function(key, callback) {
+		callback(stories[key]);
 	};
 }
 

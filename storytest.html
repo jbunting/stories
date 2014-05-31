@@ -35,17 +35,13 @@
                 ds.addStory(storyObject);
             });
 
-            $("#story_span").click(function() {
-                console.log("listing stories...");
-                var stories = ds.listStories();
-                $("#stories").empty();
-                for (var i = 0; i < stories.length; i++) {
-                    var story = stories[i];
-                    console.log("displaying story", story);
-                    $("<li/>").appendTo("#stories").html("[" + story.pk + "] -- " + story.title).click(story, function(event) {
-                        console.log("Here's your story!", ds.getStoryDetails(event.data.pk));
+            ds.listenForStories(function(story) {
+                console.log("displaying story", story);
+                $("<li/>").appendTo("#stories").html("[" + story.pk + "] -- " + story.title).click(story, function(event) {
+                    ds.getStoryDetails(event.data.pk, function(story) {
+                        console.log("Here's your story!", story);
                     });
-                }
+                });
             });
             console.log("it's all setup!");
 

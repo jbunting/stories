@@ -1,0 +1,19 @@
+#intake_wrapper {
+    padding: 5px;
+    width: 100%;
+    background: #cccccc;
+}
+
+.step {
+    background: #999999;
+    padding: 4px 6px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -khtml-border-radius: 10px;
+}
+
+.step_header {
+    background: #000000;
+    color: #ffffff;
+}

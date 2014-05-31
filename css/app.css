@@ -1,11 +1,64 @@
 body {
     margin: 0px;
+    padding: 4px;
     background: #666666;
+    font-family: 'Muli', sans-serif;
+    font-weight: lighter;
+    background-image: url('../templates/images/festival2013.jpg');
+    background-size: 100% 100%;
+    color: #cccccc;
 }
 
 input[type=text] {
-    width: 95%;
-    font-size: 20px;
+    width: 100%;
+    font-size: 30px;
     padding: 2px;
     color: #666666;
+    border: none;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -khtml-border-radius: 10px;
+}
+
+input[type=button] {
+    font-size: 30px;
+    padding: 15px;
+    border: none;
+    color: #ffffff;
+    font-weight: lighter;
+    background-color: rgba(114, 181, 205, 1);
+    cursor: pointer;
+}
+
+input[type=button]:hover {
+    background-color: rgba(28, 81, 102, 1);
+}
+
+input[type=submit] {
+    font-size: 30px;
+    padding: 15px;
+    border: none;
+    color: #ffffff;
+    font-weight: lighter;
+    background-color: rgba(114, 181, 205, 1);
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: rgba(28, 81, 102, 1);
+}
+
+.close_button {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    cursor: pointer;
+}
+
+#mapDiv {
+    padding: 0;
+    margin: 0 auto;
+    width: 95%;
+    height: 600px;
 }

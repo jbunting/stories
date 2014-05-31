@@ -8,6 +8,7 @@
             Coords: <input type="text" name="longitude" value="36.1667">
             <input type="text" name="latitude" value="-86.7833"> <br>
             Text: <input type="text" name="text" value="We went to the store. Twice!"> <br>
+            Video Ref: <input type="text" name="video_ref" value="szhJzX0UgDM"> <br>
             Submitter: <br>
             &nbsp;&nbsp;Name:<input type="text" name="submitter_name" value="Fred"> <br>
             &nbsp;&nbsp;Phone:<input type="tel" name="submitter_phone" value="555-1234"> <br>
@@ -23,10 +24,35 @@
         <span id="story_span">Stories</span>
         <ul id="stories"></ul>
 
+        <div id="player"/>
+
         <script src="js/jquery-1.11.1.js"></script>
         <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
         <script src="js/data.js"></script>
         <script>
+            var tag = document.createElement('script');
+            tag.src = "http://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            var player;
+            function onYouTubeIframeAPIReady() {
+                console.log("Loading youtube player...", arguments);
+                function onError() {
+                    console.log("WTF MAN?", arguments);
+                }
+                player = new YT.Player('player', {
+                    height: '390',
+                    width: '640',
+                    events: {
+//                        'onReady': onPlayerReady,
+//                        'onStateChange': onPlayerStateChange
+                        'onError': onError
+                    }
+                });
+                console.log("Youtube player loaded...");
+            }
+
             var ds = new DataSource();
             $("#story_form").submit(function(event) {
                 event.preventDefault();
@@ -43,6 +69,7 @@
                 $("<li/>").appendTo("#stories").html("[" + story.pk + "] -- " + story.title).click(story, function(event) {
                     ds.getStoryDetails(event.data.pk, function(story) {
                         console.log("Here's your story!", story);
+                        player.loadVideoById(story.video_ref);
                     });
                 });
             });

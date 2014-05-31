@@ -21,22 +21,29 @@
 // 2. imgref
 //
 
-function dataSource() {
+function DataSource() {
 
+	var pk_seq = 0;
 	var stories = [];
 
 	// An object containing all of the fields required for a story.
 	this.addStory = function(story) {
+		story.pk = pk_seq++;
 		stories.push(story);
+		console.log("Added a story.", story);
 	};
 
 	// Get a list of all stories. This returns an array of objects, where each object contains "title" and "pk" of the story.
 	this.listStories = function() {
-		return stories;
+		var storiesMeta = [];
+		for (var i = 0; i < stories.length; i++) {
+			storiesMeta.push({ pk: i, title: stories[i].title });
+		}
+		return storiesMeta;
 	};
 
 	this.getStoryDetails = function(key) {
-
+		return stories[key];
 	};
 }
 

@@ -24,6 +24,7 @@
         <ul id="stories"></ul>
 
         <script src="js/jquery-1.11.1.js"></script>
+        <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
         <script src="js/data.js"></script>
         <script>
             var ds = new DataSource();
@@ -32,7 +33,9 @@
                 console.log("hi!", event);
                 var storyObject = $(event.currentTarget).serializeObject();
                 console.log("new story", storyObject);
-                ds.addStory(storyObject);
+                ds.addStory(storyObject, function(key) {
+                    console.log("Added new story " + key);
+                });
             });
 
             ds.listenForStories(function(story) {

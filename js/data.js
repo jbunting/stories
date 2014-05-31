@@ -23,6 +23,44 @@
 
 function DataSource() {
 
+	var myRootRef = new Firebase('https://nashstories.firebaseio.com/');
+
+	var storiesRef = myRootRef.child("stories");
+
+	// An object containing all of the fields required for a story.
+	//  -- the callback will be called with the PK of the new story once it is added
+	this.addStory = function(story, callback) {
+		var newRef = storiesRef.push();
+		newRef.set(story);
+		if (callback) {
+			callback(newRef.name());
+		}
+	};
+
+	// Get a list of all stories. This returns an array of objects, where each object contains "title" and "pk" of the story.
+	// -- the callback will be called once for each story -- even if they are added later - passing the story as a single param.
+	this.listenForStories = function(callback) {
+		storiesRef.on('child_added', function(snapshot) {
+			var pk = snapshot.name();
+			var story = snapshot.val();
+			story.pk = pk;
+			callback(story);
+		});
+	};
+
+	// Gets a specific story's detail and invokes the callback with the story as the parameter
+	this.getStoryDetails = function(key, callback) {
+		storiesRef.child(key).on("value", function(snapshot) {
+			var pk = snapshot.name();
+			var story = snapshot.val();
+			story.pk = pk;
+			callback(story);
+		});
+	};
+}
+
+function SimpleDataSource() {
+
 	var ObservableArray = function() {
 		this.listeners = [];
 		this.listen = function(listener) {

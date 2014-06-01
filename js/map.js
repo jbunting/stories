@@ -39,8 +39,9 @@ require([
         if (e.graphic) {
             show_story(e.graphic.attributes.id);
         } else {
-            console.log('x: ', center.getLatitude());
-            console.log('y: ', center.getLongitude());
+            $('#intake_lat').val(center.getLatitude());
+            $('#intake_long').val(center.getLongitude());
+            swapView( 'intake' );
         }
     }
   });

@@ -85,7 +85,7 @@ $( document ).ready( function() {
         swapView( tar );
     });
 
-    $( '.close_button' ).on( 'click', function() {
+    $( document ).on( 'click', '.close_button', function() {
         swapView( 'mapDiv' );
     });
 });

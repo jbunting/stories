@@ -32,5 +32,6 @@
 }
 
 .step_content {
-    padding: 20px;
+    display: none;
+    overflow: hidden;
 }

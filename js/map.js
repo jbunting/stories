@@ -48,6 +48,7 @@ require([
         var center = new Point([ $("#coords_lon").val(), $("#coords_lat").val()]);
         var graphic = new Graphic(center, createPictureSymbol());
         map_intake.graphics.add(graphic);
+      map_intake.centerAt(center);
   });
 
   map_intake.on("click", function(e) {

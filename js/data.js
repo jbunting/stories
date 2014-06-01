@@ -5,14 +5,14 @@
 // 1. title
 // 2. longitude
 // 3. latitude
-// 4. date of submission
-// 5. date of story
-// 6. story text
-// 7. story video reference
-// 8. approved?
-// 9. submitter name
-// 10. submitter phone
-// 11. submitter email
+// 4. submit_date
+// 5. story_date
+// 6. text
+// 7. video_ref
+// 8. approved
+// 9. submitter_name
+// 10. submitter_phone
+// 11. submitter_email
 //
 // A secondary table contains "media". A record in this table has a foreign key to a story and a media reference.
 //
@@ -150,4 +150,69 @@ function SimpleDataSource() {
 }
 
 
+(function($){
+    $.fn.serializeObject = function(){
 
+        var self = this,
+                json = {},
+                push_counters = {},
+                patterns = {
+                    "validate": /^[a-zA-Z][a-zA-Z0-9_]*(?:\[(?:\d*|[a-zA-Z0-9_]+)\])*$/,
+                    "key":      /[a-zA-Z0-9_]+|(?=\[\])/g,
+                    "push":     /^$/,
+                    "fixed":    /^\d+$/,
+                    "named":    /^[a-zA-Z0-9_]+$/
+                };
+
+
+        this.build = function(base, key, value){
+            base[key] = value;
+            return base;
+        };
+
+        this.push_counter = function(key){
+            if(push_counters[key] === undefined){
+                push_counters[key] = 0;
+            }
+            return push_counters[key]++;
+        };
+
+        $.each($(this).serializeArray(), function(){
+
+            // skip invalid keys
+            if(!patterns.validate.test(this.name)){
+                return;
+            }
+
+            var k,
+                    keys = this.name.match(patterns.key),
+                    merge = this.value,
+                    reverse_key = this.name;
+
+            while((k = keys.pop()) !== undefined){
+
+                // adjust reverse_key
+                reverse_key = reverse_key.replace(new RegExp("\\[" + k + "\\]$"), '');
+
+                // push
+                if(k.match(patterns.push)){
+                    merge = self.build([], self.push_counter(reverse_key), merge);
+                }
+
+                // fixed
+                else if(k.match(patterns.fixed)){
+                    merge = self.build([], k, merge);
+                }
+
+                // named
+                else if(k.match(patterns.named)){
+                    merge = self.build({}, k, merge);
+                }
+            }
+
+            json = $.extend(true, json, merge);
+        });
+
+        return json;
+    };
+})(jQuery);

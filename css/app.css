@@ -16,7 +16,7 @@ body {
 #body_wrapper {
 }
 
-input[type=text] {
+input[type=text], input[type=email], input[type=tel], input[type=date] {
     width: 100%;
     font-size: 30px;
     padding: 2px;
@@ -26,6 +26,10 @@ input[type=text] {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     -khtml-border-radius: 10px;
+}
+
+input[type=date] {
+    width: 20%;
 }
 
 .file {

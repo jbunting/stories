@@ -152,8 +152,8 @@ textarea {
     display: none;
     position: relative;
     margin-top: 80px;
-    background: rgba(114, 181, 204, 0.8);
-    height: 100%;
+    background: rgba(114, 181, 204, 0.5);
+    min-height: 100%;
     color: #ffffff;
     padding: 10px;
 }

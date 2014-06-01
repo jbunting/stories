@@ -19,7 +19,9 @@ function templator() {
         // replace all the options in the template with their values
         for ( var pos in options ) {
             var tempPatt = new RegExp( '{{' + pos + '}}', 'g' );
-            html = html.replace(tempPatt, options[ pos ] );
+            var replaceReturns = new RegExp( '\n', 'g' );
+            var newOption = options[ pos ].replace( replaceReturns, '<br />' );
+            html = html.replace(tempPatt, newOption );
         }
         return html;
     }

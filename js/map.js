@@ -43,15 +43,18 @@ require([
 		}
   });
 
+    var ds = new DataSource();
   /**
    * populate map with existing stories
    */
 	function mapLoaded(){
   	if ($("#mapDiv").hasClass("mapDisplay")) {
-		  arrayUtils.forEach(points, function(point) {
-		    var graphic = new Graphic(new Point(point), createSymbol(initColor));
-		    map.graphics.add(graphic);
-		  });
+          ds.listenForStories(function(story) {
+              var point = new Point([parseFloat(story.longitude), parseFloat(story.latitude)]);
+              console.log("Adding a new story to map", point, story);
+              var graphic = new Graphic(point, createSymbol(initColor));
+              map.graphics.add(graphic);
+          });
 		}
 	};
 

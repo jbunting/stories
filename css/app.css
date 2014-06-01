@@ -111,7 +111,7 @@ textarea {
     top: 0px;
     left: 0px;
     z-index: 120;
-    position: absolute;
+    position: fixed;
 }
 
 #appheader ul {
@@ -136,4 +136,9 @@ textarea {
 
 #about {
     display: none;
+    margin-top: 80px;
+    background: rgba(114, 181, 204, 0.8);
+    height: 100%;
+    color: #ffffff;
+    padding: 10px;
 }

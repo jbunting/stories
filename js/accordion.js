@@ -36,12 +36,15 @@ function accordion_maker() {
         // check if there is a current and if so
         // start the hiding of it
         if ( self.activeObj ) {
-            $( self.activeObj ).hide( 400 );
+            $( self.activeObj ).hide( 400, function() {
+                $(this).trigger("notVisible");
+            });
         }
         // now let's show the new clicked by finding the
         // sibling content
         var sibling = $( clicked ).siblings( '.' + self.contentElement );
         $( sibling ).show( 400, function() {
+            console.log("Accordion going visible.");
             $(this).trigger("isVisible");
         });
         // try to set focus

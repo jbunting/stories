@@ -3,6 +3,8 @@ var points = [
 	[-86.813327, 36.149667]
 ];
 
+var setup_intake_map;
+
 require([
 	"esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", 
 	"esri/graphic", "dojo/_base/array", "dojox/widget/ColorPicker", 
@@ -20,11 +22,37 @@ require([
 		basemap: "streets",
   });
 
-	map_intake = new Map("mapDiv_Intake", {
-		center: [-86.7833, 36.1667],
-		zoom: 12,
-		basemap: "streets",
-  });
+    setup_intake_map = function() {
+        var map_intake = new Map("mapDiv_Intake", {
+            center: [-86.7833, 36.1667],
+            zoom: 12,
+            basemap: "streets",
+        });
+
+        $("#map_content").on("isVisible", function(e) {
+            console.log("Map going visible...");
+            map_intake.reposition();
+            map_intake.graphics.clear();
+            var center = new Point([ $("#coords_lon").val(), $("#coords_lat").val()]);
+            console.log("Marking point", center);
+            var graphic = new Graphic(center, createPictureSymbol());
+            map_intake.graphics.add(graphic);
+            map_intake.centerAt(center);
+        });
+
+        map_intake.on("click", function(e) {
+            // clear the graphics, because we can only add one point per story
+            map_intake.graphics.clear();
+            // add new point
+            var center = e.mapPoint;
+            $("#coords_lat").val(center.getLatitude());
+            $("#coords_lon").val(center.getLongitude());
+            var graphic = new Graphic(center, createPictureSymbol());
+            map_intake.graphics.add(graphic);
+        });
+
+
+    };
 
 	map.on("load", mapLoaded);
 
@@ -36,31 +64,8 @@ require([
 	        show_story(e.graphic.attributes.id);
       } else {
 			    var center = e.mapPoint;
-          $('#coords_lat').val(center.getLatitude());
-          $('#coords_lon').val(center.getLongitude());
-          swapView( 'intake' );
+          swapView( 'intake', center );
       }
-  });
-
-  $("#map_content").on("isVisible", function(e) {
-  		map_intake.reposition();
-        map_intake.graphics.clear();
-        var center = new Point([ $("#coords_lon").val(), $("#coords_lat").val()]);
-        var graphic = new Graphic(center, createPictureSymbol());
-        map_intake.graphics.add(graphic);
-      map_intake.centerAt(center);
-  });
-
-  map_intake.on("click", function(e) {
-	    var center = e.mapPoint;
-  		// clear the graphics, because we can only add one point per story
-	  	map_intake.graphics.clear();
-	  	// add new point
-	    var center = e.mapPoint;
-			$("#coords_lat").val(center.getLatitude());
-			$("#coords_lon").val(center.getLongitude());
-	    var graphic = new Graphic(center, createPictureSymbol());
-			map_intake.graphics.add(graphic);
   });
 
     var ds = new DataSource();

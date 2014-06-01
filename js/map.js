@@ -33,11 +33,15 @@ require([
             console.log("Map going visible...");
             map_intake.reposition();
             map_intake.graphics.clear();
-            var center = new Point([ $("#coords_lon").val(), $("#coords_lat").val()]);
-            console.log("Marking point", center);
-            var graphic = new Graphic(center, createPictureSymbol());
-            map_intake.graphics.add(graphic);
-            map_intake.centerAt(center);
+            var longitude = $("#coords_lon").val();
+            var latitude = $("#coords_lat").val();
+            if (longitude && latitude) {
+                var center = new Point([  longitude, latitude]);
+                console.log("Marking point", center);
+                var graphic = new Graphic(center, createPictureSymbol());
+                map_intake.graphics.add(graphic);
+                map_intake.centerAt(center);
+            }
         });
 
         map_intake.on("click", function(e) {

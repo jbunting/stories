@@ -17,7 +17,12 @@ require([
 	map = new Map("mapDiv", {
 		center: [-86.7833, 36.1667],
 		zoom: 12,
-		minZoom: 11,
+		basemap: "streets",
+  });
+
+	map_intake = new Map("mapDiv_Intake", {
+		center: [-86.7833, 36.1667],
+		zoom: 12,
 		basemap: "streets",
   });
 
@@ -27,19 +32,24 @@ require([
 	 * add a point the map
 	 */
   map.on("click", function(e) {
-  	if ($("#mapDiv").hasClass("mapIntake")) {
+	    if (e.graphic) {
+	        show_story(e.graphic.attributes.id);
+	    }
+  });
+
+  $("#map_content").on("isVisible", function(e) {
+  		map_intake.reposition();
+  });
+
+  map_intake.on("click", function(e) {
   		// clear the graphics, because we can only add one point per story
-	  	map.graphics.clear();
+	  	map_intake.graphics.clear();
 	  	// add new point
 	    var center = e.mapPoint;
-		$("#coords").html(center.getLatitude() + ", " + center.getLongitude());
-	    var graphic = new Graphic(center, createSymbol(initColor));
-		map.graphics.add(graphic);
-    } else {
-        if (e.graphic) {
-            show_story(e.graphic.attributes.id);
-        }
-    }
+			$("#coords_lat").val(center.getLatitude());
+			$("#coords_lon").val(center.getLongitude());
+	    var graphic = new Graphic(center, createPictureSymbol());
+			map_intake.graphics.add(graphic);
   });
 
     var ds = new DataSource();
@@ -47,15 +57,13 @@ require([
    * populate map with existing stories
    */
 	function mapLoaded(){
-  	if ($("#mapDiv").hasClass("mapDisplay")) {
-          ds.listenForStories(function(story) {
-              var point = new Point([parseFloat(story.longitude), parseFloat(story.latitude)]);
-              console.log("Adding a new story to map", point, story);
-              var graphic = new Graphic(point, createPictureSymbol());
-              graphic.setAttributes({'id': story.pk});
-              map.graphics.add(graphic);
-          });
-		}
+      ds.listenForStories(function(story) {
+          var point = new Point([parseFloat(story.longitude), parseFloat(story.latitude)]);
+          console.log("Adding a new story to map", point, story);
+          var graphic = new Graphic(point, createPictureSymbol());
+          graphic.setAttributes({'id': story.pk});
+          map.graphics.add(graphic);
+      });
 	};
 
 	function createPictureSymbol(){

@@ -31,6 +31,11 @@
     padding: 5px;
 }
 
+.mapDiv_Intake {
+    width: 500px;
+    height: 220px;
+}
+
 .step_content {
     display: none;
     overflow: hidden;

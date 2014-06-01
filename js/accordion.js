@@ -41,7 +41,9 @@ function accordion_maker() {
         // now let's show the new clicked by finding the
         // sibling content
         var sibling = $( clicked ).siblings( '.' + self.contentElement );
-        $( sibling ).show( 400 );
+        $( sibling ).show( 400, function() {
+            $(this).trigger("isVisible");
+        });
         // try to set focus
         $( sibling ).children( 'input' ).focus();
         // update actives

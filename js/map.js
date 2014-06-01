@@ -5,8 +5,8 @@ var points = [
 
 require([
 	"esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", 
-	"esri/graphic", "dojo/_base/array", "dojo/dom-style", 
-	"dojox/widget/ColorPicker", "dojo/domReady!"
+	"esri/graphic", "dojo/_base/array", "dojox/widget/ColorPicker", 
+	"dojo/dom-style", "dojo/domReady!"
 ], function(
 	Map, Point, SimpleMarkerSymbol, Graphic,
 	arrayUtils, ColorPicker
@@ -17,6 +17,7 @@ require([
 	map = new Map("mapDiv", {
 		center: [-86.7833, 36.1667],
 		zoom: 12,
+		minZoom: 11,
 		basemap: "streets",
   });
 
@@ -53,11 +54,20 @@ require([
           ds.listenForStories(function(story) {
               var point = new Point([parseFloat(story.longitude), parseFloat(story.latitude)]);
               console.log("Adding a new story to map", point, story);
-              var graphic = new Graphic(point, createSymbol(initColor));
+              var graphic = new Graphic(point, createPictureSymbol());
               graphic.setAttributes({'id': story.pk});
               map.graphics.add(graphic);
           });
 		}
+	};
+
+	function createPictureSymbol(){
+	  var markerSymbol = new esri.symbol.PictureMarkerSymbol({
+		  "url":"templates/images/flag.png",
+    	"height":20,
+    	"width":20,
+ 	  });
+	  return markerSymbol;
 	};
 
 	function createSymbol(color){

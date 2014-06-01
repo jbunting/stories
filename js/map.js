@@ -26,17 +26,20 @@ require([
 	 * add a point the map
 	 */
   map.on("click", function(e) {
+    var center = e.mapPoint;
+    $("#coords").html(center.getLatitude() + ", " + center.getLongitude());
   	if ($("#mapDiv").hasClass("mapIntake")) {
   		// clear the graphics, because we can only add one point per story
 	  	map.graphics.clear();
 	  	// add new point
-	    var center = e.mapPoint;
-		$("#coords").html(center.getLatitude() + ", " + center.getLongitude());
 	    var graphic = new Graphic(center, createSymbol(initColor));
 		map.graphics.add(graphic);
     } else {
         if (e.graphic) {
             show_story(e.graphic.attributes.id);
+        } else {
+            console.log('x: ', center.getLatitude());
+            console.log('y: ', center.getLongitude());
         }
     }
   });

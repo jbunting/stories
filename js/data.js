@@ -28,11 +28,29 @@ function DataSource() {
 	var storiesRef = myRootRef.child("stories");
 	var imagesRef = myRootRef.child("images");
 
+    function today() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10) {
+            dd='0'+dd
+        }
+
+        if(mm<10) {
+            mm='0'+mm
+        }
+
+        return yyyy + "-" + mm + "-" + dd;
+    }
+
 	// An object containing all of the fields required for a story.
 	//  -- the callback will be called with the PK of the new story once it is added
 	this.addStory = function(story, callback) {
 		var newRef = storiesRef.push();
 		story.approved = false;
+        story.submit_date = today();
 		newRef.set(story);
 		if (callback) {
 			callback(newRef.name());

@@ -60,26 +60,26 @@ function DataSource() {
 	// Get a list of all stories. This returns an array of objects, where each object contains "title" and "pk" of the story.
 	// -- the callback will be called once for each story -- even if they are added later - passing the story as a single param.
 	this.listenForStories = function(callback) {
-		storiesRef.on('child_added', function(snapshot) {
-			var pk = snapshot.name();
-			var story = snapshot.val();
-			if (story.approved) {
-				story.pk = pk;
-				callback(story);
-			} else {
-				var storyRef = storiesRef.child(pk);
-				var approvedCallback = function (snapshot)
-				{
-					if (snapshot.name() === "approved")
-					{
-						story.pk = pk;
-						callback(story);
-						storyRef.off("child_changed", approvedCallback);
-					}
-				};
-				storyRef.on("child_changed", approvedCallback)
-			}
-		});
+        var handleStoryUpdate = function (snapshot) {
+            var pk = snapshot.name();
+            var story = snapshot.val();
+            if (story.approved) {
+                story.pk = pk;
+                callback(story);
+            } else {
+                var storyRef = storiesRef.child(pk);
+                var approvedCallback = function (approval_snapshot) {
+                    console.log("story " + pk + " changed...", approval_snapshot.val());
+                    if (approval_snapshot.name() === "approved" && approval_snapshot.val()) {
+                        console.log("story " + pk + " got approved!");
+                        storyRef.once("value", handleStoryUpdate);
+                        storyRef.off("child_changed", approvedCallback);
+                    }
+                };
+                storyRef.on("child_changed", approvedCallback)
+            }
+        };
+        storiesRef.on('child_added', handleStoryUpdate);
 	};
 
 	// Gets a specific story's detail and invokes the callback with the story as the parameter

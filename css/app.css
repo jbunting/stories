@@ -109,6 +109,10 @@ textarea {
     position: relative;
 }
 
+#coords_lat, #coords_lon {
+    display: none;
+}
+
 #appheader {
     height: 80px;
     background: rgba(86, 173, 205, 0.9);

@@ -8,6 +8,19 @@ function storyApp() {
 
     // Setup accordian
     accordion.start( $('#intake_wrapper'), 'step_header', 'step_content' );
+
+    // Link the intake form to the data
+    var ds = new DataSource();
+
+    $("#intake_form").submit(function (event) {
+        event.preventDefault();
+        var storyObject = $(event.currentTarget).serializeObject();
+        console.log("Submitting a new story.", storyObject);
+        ds.addStory(storyObject, function (key) {
+            console.log("Added new story " + key);
+            swapView('mapDiv')
+        });
+    });
 }
 
 function swapView( target ) {
@@ -22,18 +35,6 @@ function swapView( target ) {
     $( '#' + target ).show( 200 );
     // update active
     currentView = target;
-
-    // Link the intake form to the data
-    var ds = new DataSource();
-
-    $("#intake_form").submit(function (event) {
-        event.preventDefault();
-        var storyObject = $(event.currentTarget).serializeObject();
-        console.log("Submitting a new story.", storyObject);
-        ds.addStory(storyObject, function (key) {
-            console.log("Added new story " + key);
-        });
-    });
 }
 
 $( document ).ready( function() {

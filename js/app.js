@@ -5,6 +5,8 @@ function storyApp() {
     // Get content
     var intake = templator.compileTemplate( 'templates/intake.html', '' );
     $('#intake').html(intake);
+    var about = templator.compileTemplate( 'templates/about.html', '' );
+    $('#about').html(about);
 
     // Setup accordian
     accordion.start( $('#intake_wrapper'), 'step_header', 'step_content' );

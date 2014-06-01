@@ -72,9 +72,17 @@ function DataSource() {
 	// later - passing the image data (base64 encoded) as a single param
 	this.listenForStoryImages = function(storyKey, callback) {
 		imagesRef.child(storyKey).on('child_added', function(snapshot) {
+			var imgkey = snapshot.name();
+			callback(imgkey);
+		});
+	};
+
+	this.getImageData = function(storyKey, imageKey, callback) {
+		imagesRef.child(storyKey).child(imageKey).on('value', function(snapshot) {
 			callback(snapshot.val());
 		});
-	}
+	};
+
 }
 
 function SimpleDataSource() {

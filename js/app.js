@@ -1,4 +1,5 @@
 var currentView = 'mapDiv'; // the current view
+var ds;
 
 function storyApp() {
 
@@ -12,7 +13,7 @@ function storyApp() {
     accordion.start( $('#intake_wrapper'), 'step_header', 'step_content' );
 
     // Link the intake form to the data
-    var ds = new DataSource();
+    ds = new DataSource();
 
     $("#intake_form").submit(function (event) {
         event.preventDefault();
@@ -37,6 +38,24 @@ function swapView( target ) {
     $( '#' + target ).show( 200 );
     // update active
     currentView = target;
+}
+
+function show_story(tar) {
+    // build values
+    ds.getStoryDetails(tar, function(story) {
+        // map values
+        var data = {
+            "story_title" : story.title,
+            "story_date" : story.story_date,
+            "story_location" : story.latitude + " : " + story.longitude,
+            "story_details" : story.text,
+        }
+        // build template
+        var story_details = templator.compileTemplate( 'templates/story_details.html', data );
+        // add to document and swap
+        $('#story_details').html(story_details);
+        swapView('story_details');
+    });
 }
 
 $( document ).ready( function() {

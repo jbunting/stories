@@ -31,16 +31,14 @@ require([
 	  	map.graphics.clear();
 	  	// add new point
 	    var center = e.mapPoint;
-			$("#coords").html(center.getLatitude() + ", " + center.getLongitude());
+		$("#coords").html(center.getLatitude() + ", " + center.getLongitude());
 	    var graphic = new Graphic(center, createSymbol(initColor));
-		  map.graphics.add(graphic);
-		} else {
-			if (e.graphic) {
-				$("#coords").html("Clicked on " + e.graphic.geometry.x + ", " + e.graphic.geometry.y);
-			} else {
-				$("#coords").html("Did not click a point");
-			}
-		}
+		map.graphics.add(graphic);
+    } else {
+        if (e.graphic) {
+            show_story(e.graphic.attributes.id);
+        }
+    }
   });
 
     var ds = new DataSource();
@@ -53,6 +51,7 @@ require([
               var point = new Point([parseFloat(story.longitude), parseFloat(story.latitude)]);
               console.log("Adding a new story to map", point, story);
               var graphic = new Graphic(point, createSymbol(initColor));
+              graphic.setAttributes({'id': story.pk});
               map.graphics.add(graphic);
           });
 		}

@@ -26,6 +26,7 @@ function DataSource() {
 	var myRootRef = new Firebase('https://nashstories.firebaseio.com/');
 
 	var storiesRef = myRootRef.child("stories");
+	var imagesRef = myRootRef.child("images");
 
 	// An object containing all of the fields required for a story.
 	//  -- the callback will be called with the PK of the new story once it is added
@@ -57,6 +58,23 @@ function DataSource() {
 			callback(story);
 		});
 	};
+
+	// Adds an image to the story specified by the key -- once added, invokes the callback with the new image's key
+	this.addImage = function(key, imageData, callback) {
+		var newImage = imagesRef.child(key).push();
+		newImage.set(imageData);
+		if (callback) {
+			callback(newImage.name());
+		}
+	};
+
+	// Get a list of all images for a given story. The callback will be called once for each image -- even if they are added
+	// later - passing the image data (base64 encoded) as a single param
+	this.listenForStoryImages = function(storyKey, callback) {
+		imagesRef.child(storyKey).on('child_added', function(snapshot) {
+			callback(snapshot.val());
+		});
+	}
 }
 
 function SimpleDataSource() {

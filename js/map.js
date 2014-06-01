@@ -19,6 +19,7 @@ require([
 	map = new Map("mapDiv", {
 		center: [-86.7833, 36.1667],
 		zoom: 12,
+    minZoom: 11,
 		basemap: "streets",
   });
 
@@ -26,6 +27,7 @@ require([
         var map_intake = new Map("mapDiv_Intake", {
             center: [-86.7833, 36.1667],
             zoom: 12,
+            minZoom: 11,
             basemap: "streets",
         });
 

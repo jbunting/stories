@@ -1,12 +1,12 @@
 <div id="intake_wrapper">
     <div class="close_button">
-        <img src="images/close.png" border="0" />
+        <img src="templates/images/close.png" border="0" />
     </div>
     <div class="step_wrapper">
         <div class="step_header">
             <span class="step">1</span> Title your story
         </div>
-        <div class="step_cotent">
+        <div class="step_content">
             <input type="text" name="storyTitle" />
         </div>
     </div>
@@ -14,7 +14,7 @@
         <div class="step_header">
             <span class="step">2</span> When did the event happen?
         </div>
-        <div class="step_cotent">
+        <div class="step_content">
             <input type="text" name="storyTitle" />
         </div>
     </div>
@@ -22,10 +22,10 @@
         <div class="step_header">
             <span class="step">3</span> Where did this happen?
         </div>
-        <div class="step_cotent">
+        <div class="step_content">
             <input type="text" name="location" />
             <div class="intake_map">
-                <img src="images/temp_map.gif" border="0">
+                <img src="templates/images/temp_map.gif" border="0">
             </div>
         </div>
     </div>
@@ -33,17 +33,16 @@
         <div class="step_header">
             <span class="step">4</span> Tell us your story or type us a story.
         </div>
-        <div class="step_cotent">
-            <input type="button" value="Video" name="intake_story_video" />
-            <input type="button" value="Text" name="intake_story_text" />
+        <div class="step_content">
+            <textarea name="story"></textarea>
         </div>
     </div>
     <div class="step_wrapper">
         <div class="step_header">
             <span class="step">5</span> Do you have photos or videos to share?
         </div>
-        <div class="step_cotent">
-            <input type="button" value="Upload Media" name="intake_media" />
+        <div class="step_content">
+            <input type="file" value="Upload Media" name="intake_media" class="file" />
         </div>
     </div>
     <div class="step_wrapper">

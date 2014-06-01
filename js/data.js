@@ -32,6 +32,7 @@ function DataSource() {
 	//  -- the callback will be called with the PK of the new story once it is added
 	this.addStory = function(story, callback) {
 		var newRef = storiesRef.push();
+		story.approved = false;
 		newRef.set(story);
 		if (callback) {
 			callback(newRef.name());
@@ -44,14 +45,28 @@ function DataSource() {
 		storiesRef.on('child_added', function(snapshot) {
 			var pk = snapshot.name();
 			var story = snapshot.val();
-			story.pk = pk;
-			callback(story);
+			if (story.approved) {
+				story.pk = pk;
+				callback(story);
+			} else {
+				var storyRef = storiesRef.child(pk);
+				var approvedCallback = function (snapshot)
+				{
+					if (snapshot.name() === "approved")
+					{
+						story.pk = pk;
+						callback(story);
+						storyRef.off("child_changed", approvedCallback);
+					}
+				};
+				storyRef.on("child_changed", approvedCallback)
+			}
 		});
 	};
 
 	// Gets a specific story's detail and invokes the callback with the story as the parameter
 	this.getStoryDetails = function(key, callback) {
-		storiesRef.child(key).on("value", function(snapshot) {
+		storiesRef.child(key).once("value", function(snapshot) {
 			var pk = snapshot.name();
 			var story = snapshot.val();
 			story.pk = pk;
@@ -78,7 +93,7 @@ function DataSource() {
 	};
 
 	this.getImageData = function(storyKey, imageKey, callback) {
-		imagesRef.child(storyKey).child(imageKey).on('value', function(snapshot) {
+		imagesRef.child(storyKey).child(imageKey).once('value', function(snapshot) {
 			callback(snapshot.val());
 		});
 	};

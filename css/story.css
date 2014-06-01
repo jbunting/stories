@@ -1,0 +1,31 @@
+.story_title {
+    font-weight: lighter;
+    font-size: 63px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.story_location {
+    font-weight: lighter;
+    margin: 0px;
+    padding: 0px;
+}
+
+.story_date {
+    font-weight: lighter;
+    font-size: 30px;
+    margin: 0px;
+    padding: 0px;
+    color: #a1c4d1;
+}
+
+.story_details {
+    margin-top: 10px;
+    font-weight: lighter;
+    font-size: 40px;
+}
+
+#story_img {
+    min-height: 150px;
+    cursor: pointer;
+}

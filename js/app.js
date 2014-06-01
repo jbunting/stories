@@ -82,6 +82,11 @@ function show_story(tar) {
         var story_details = templator.compileTemplate( 'templates/story_details.html', data );
         // add to document and swap
         $('#story_details').html(story_details);
+        if (!data.img_uri) {
+            $('#story_img').hide();
+        } else {
+            $('#story_img').show();
+        }
         swapView('story_details');
     });
 }

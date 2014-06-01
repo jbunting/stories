@@ -16,12 +16,30 @@ function storyApp() {
 
     $("#intake_form").submit(function (event) {
         event.preventDefault();
-        var storyObject = $(event.currentTarget).serializeObject();
+        var form = $(event.currentTarget);
+        var storyObject = form.serializeObject();
         console.log("Submitting a new story.", storyObject);
         ds.addStory(storyObject, function (key) {
             console.log("Added new story " + key);
+            // upload images here
+
+            var imgInput = form.find("#images");
+            var files = imgInput[0].files;
+            $.each(files, function(fileKey, value) {
+               console.log("Image file", fileKey, value);
+               var reader = new FileReader();
+                reader.onload = function(event) {
+                    var data = event.target.result;
+                    console.log("Loaded image", data);
+                    ds.addImage(key, data);
+                };
+                reader.readAsDataURL(value);
+            });
+
             swapView('mapDiv')
         });
+
+
     });
 }
 

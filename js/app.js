@@ -16,7 +16,6 @@ function storyApp() {
         console.log("Submitting a new story.", storyObject);
         ds.addStory(storyObject, function (key) {
             console.log("Added new story " + key);
-            $(event.currentTarget).clear();
         });
     });
 }

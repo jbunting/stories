@@ -13,6 +13,7 @@
 // 9. submitter_name
 // 10. submitter_phone
 // 11. submitter_email
+// 12. img_uri
 //
 // A secondary table contains "media". A record in this table has a foreign key to a story and a media reference.
 //
@@ -93,28 +94,28 @@ function DataSource() {
 	};
 
 	// Adds an image to the story specified by the key -- once added, invokes the callback with the new image's key
-	this.addImage = function(key, imageData, callback) {
-		var newImage = imagesRef.child(key).push();
-		newImage.set(imageData);
-		if (callback) {
-			callback(newImage.name());
-		}
-	};
+//	this.addImage = function(key, imageData, callback) {
+//		var newImage = imagesRef.child(key).push();
+//		newImage.set(imageData);
+//		if (callback) {
+//			callback(newImage.name());
+//		}
+//	};
 
 	// Get a list of all images for a given story. The callback will be called once for each image -- even if they are added
 	// later - passing the image data (base64 encoded) as a single param
-	this.listenForStoryImages = function(storyKey, callback) {
-		imagesRef.child(storyKey).on('child_added', function(snapshot) {
-			var imgkey = snapshot.name();
-			callback(imgkey);
-		});
-	};
+//	this.listenForStoryImages = function(storyKey, callback) {
+//		imagesRef.child(storyKey).on('child_added', function(snapshot) {
+//			var imgkey = snapshot.name();
+//			callback(imgkey);
+//		});
+//	};
 
-	this.getImageData = function(storyKey, imageKey, callback) {
-		imagesRef.child(storyKey).child(imageKey).once('value', function(snapshot) {
-			callback(snapshot.val());
-		});
-	};
+//	this.getImageData = function(storyKey, imageKey, callback) {
+//		imagesRef.child(storyKey).child(imageKey).once('value', function(snapshot) {
+//			callback(snapshot.val());
+//		});
+//	};
 
 }
 

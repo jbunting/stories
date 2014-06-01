@@ -71,7 +71,13 @@ function show_story(tar) {
         // build template
         var story_details = templator.compileTemplate( 'templates/story_details.html', data );
         // add to document and swap
-        $('#story_details').html(story_details);
+        var div = $('#story_details');
+        div.html(story_details);
+        ds.listenForStoryImages(story.pk, function(imgkey) {
+            ds.getImageData(story.pk, imgkey, function(image_uri) {
+                $('<img src="' + image_uri + '"/>').appendTo(div);
+            });
+        });
         swapView('story_details');
     });
 }

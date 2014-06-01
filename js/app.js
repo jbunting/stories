@@ -20,25 +20,34 @@ function storyApp() {
         var form = $(event.currentTarget);
         var storyObject = form.serializeObject();
         console.log("Submitting a new story.", storyObject);
-        ds.addStory(storyObject, function (key) {
-            console.log("Added new story " + key);
-            // upload images here
 
-            var imgInput = form.find("#images");
-            var files = imgInput[0].files;
-            $.each(files, function(fileKey, value) {
-               console.log("Image file", fileKey, value);
-               var reader = new FileReader();
-                reader.onload = function(event) {
-                    var data = event.target.result;
-                    console.log("Loaded image", data);
-                    ds.addImage(key, data);
-                };
-                reader.readAsDataURL(value);
+        function save() {
+            ds.addStory(storyObject, function (key) {
+                console.log("Added new story " + key);
+                // upload images here
+
+                swapView('mapDiv')
             });
+        }
 
-            swapView('mapDiv')
-        });
+        var imgInput = form.find("#images");
+        var files = imgInput[0].files;
+        if (files.length > 0) {
+            var file = files[0];
+            console.log("Image file", file);
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var data = event.target.result;
+                console.log("Loaded image", data);
+                storyObject.img_uri = data;
+//                ds.addImage(key, data);
+                save();
+            };
+            reader.readAsDataURL(file);
+        } else {
+            save();
+        }
+
 
 
     });
@@ -67,17 +76,17 @@ function show_story(tar) {
             "story_date" : story.story_date,
             "story_location" : story.latitude + " : " + story.longitude,
             "story_details" : story.text,
-        }
+            "img_uri": story.img_uri
+        };
         // build template
         var story_details = templator.compileTemplate( 'templates/story_details.html', data );
         // add to document and swap
-        var div = $('#story_details');
-        div.html(story_details);
-        ds.listenForStoryImages(story.pk, function(imgkey) {
-            ds.getImageData(story.pk, imgkey, function(image_uri) {
-                $('<img src="' + image_uri + '"/>').appendTo(div);
-            });
-        });
+        $('#story_details').html(story_details);
+        if (data.img_uri == undefined) {
+            $('#story_img').hide();
+        } else {
+            $('#story_img').show();
+        }
         swapView('story_details');
     });
 }

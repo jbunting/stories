@@ -34,7 +34,12 @@ require([
   map.on("click", function(e) {
 	    if (e.graphic) {
 	        show_story(e.graphic.attributes.id);
-	    }
+      } else {
+			    var center = e.mapPoint;
+          $('#intake_lat').val(center.getLatitude());
+          $('#intake_long').val(center.getLongitude());
+          swapView( 'intake' );
+      }
   });
 
   $("#map_content").on("isVisible", function(e) {
@@ -42,6 +47,7 @@ require([
   });
 
   map_intake.on("click", function(e) {
+	    var center = e.mapPoint;
   		// clear the graphics, because we can only add one point per story
 	  	map_intake.graphics.clear();
 	  	// add new point

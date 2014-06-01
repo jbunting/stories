@@ -1,0 +1,46 @@
+.story_title {
+    font-weight: lighter;
+    font-size: 43px;
+    margin: 0px;
+    padding: 0px 15px;
+    position: absolute;
+    bottom: 5px;
+    background: rgba(114, 181, 205, 0.6);
+}
+
+.story_location {
+    font-weight: lighter;
+    margin: 0px;
+    padding: 0px;
+}
+
+.story_date {
+    font-weight: lighter;
+    font-size: 40px;
+    margin: 0px;
+    padding: 0px;
+    color: #2e7c9d;
+}
+
+.story_details {
+    margin-top: 10px;
+    font-weight: lighter;
+    font-size: 30px;
+}
+
+#story_img {
+    min-height: 250px;
+    position: relative;
+    margin-bottom: 10px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#story_overlay {
+    position: absolute;
+    width: 100%;
+    top: 130px;
+    border: 1px solid;
+}

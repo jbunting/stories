@@ -65,4 +65,8 @@ $( document ).ready( function() {
         var tar = $( this ).data( 'key' );
         swapView( tar );
     });
+
+    $( '.close_button' ).on( 'click', function() {
+        swapView( 'mapDiv' );
+    });
 });

@@ -36,14 +36,18 @@ require([
 	        show_story(e.graphic.attributes.id);
       } else {
 			    var center = e.mapPoint;
-          $('#intake_lat').val(center.getLatitude());
-          $('#intake_long').val(center.getLongitude());
+          $('#coords_lat').val(center.getLatitude());
+          $('#coords_lon').val(center.getLongitude());
           swapView( 'intake' );
       }
   });
 
   $("#map_content").on("isVisible", function(e) {
   		map_intake.reposition();
+        map_intake.graphics.clear();
+        var center = new Point([ $("#coords_lon").val(), $("#coords_lat").val()]);
+        var graphic = new Graphic(center, createPictureSymbol());
+        map_intake.graphics.add(graphic);
   });
 
   map_intake.on("click", function(e) {

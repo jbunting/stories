@@ -31,3 +31,5 @@ function templator() {
         return request.responseText;
     }
 }
+
+var templator = new templator();
